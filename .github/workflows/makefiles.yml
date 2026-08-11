@@ -1,8 +1,6 @@
 name: Check Makefile
 
 on:
-  push:
-    branches: [ master, release/v8.* ]
   pull_request:
     branches: [ master, release/v8.* ]
 

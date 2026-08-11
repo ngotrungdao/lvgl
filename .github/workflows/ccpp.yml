@@ -1,8 +1,6 @@
 name: C/C++ CI
 
 on:
-  push:
-    branches: [ master, release/v8.* ]
   pull_request:
     branches: [ master, release/v8.* ]
 

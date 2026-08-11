@@ -1,8 +1,6 @@
 name: Emulated Performance Test
 
 on:
-  push:
-    branches: 'master'
   pull_request:
     branches: 'master'
 

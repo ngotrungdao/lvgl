@@ -1,7 +1,5 @@
 name: Arduino Lint
 on:
-  push:
-    branches: [ master, release/v8.* ]
   pull_request:
     branches: [ master, release/v8.* ]
 
