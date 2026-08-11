@@ -1,0 +1,102 @@
+name: Build and Package Artifact
+
+on:
+  push:
+    branches: [ master, release/* ]
+  pull_request:
+    branches: [ master, release/* ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-package-linux:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install prerequisites
+        run: scripts/install-prerequisites.sh
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -GNinja \
+            -DLV_BUILD_USE_KCONFIG=ON \
+            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/linux.defconfig \
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
+
+      - name: Build
+        run: |
+          cmake --build build --parallel
+          cmake --install build
+
+      - name: Stage outputs in out folder
+        run: |
+          mkdir -p out
+          cp -a build out/build
+          test -d out/install
+
+      - name: Create zip package
+        run: |
+          ZIP_NAME=lvgl-build-linux-${{ github.sha }}.zip
+          zip -r "$ZIP_NAME" out
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: lvgl-build-linux-${{ github.sha }}
+          path: lvgl-build-linux-${{ github.sha }}.zip
+          if-no-files-found: error
+
+  build-and-package-windows:
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install prerequisites
+        run: scripts\install-prerequisites.bat
+
+      - name: Configure CMake
+        run: cmake --preset windows-base
+
+      - name: Build
+        run: cmake --build --preset windows-base_rel
+
+      - name: Install
+        run: cmake --install build/windows-base --config Release
+
+      - name: Stage outputs in out folder
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path out -Force | Out-Null
+          Copy-Item -Recurse -Force build/windows-base out/build
+          Copy-Item -Recurse -Force build/install/windows-base out/install
+
+      - name: Create zip package
+        shell: pwsh
+        run: |
+          $zipName = "lvgl-build-windows-${{ github.sha }}.zip"
+          Compress-Archive -Path out -DestinationPath $zipName -Force
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: lvgl-build-windows-${{ github.sha }}
+          path: lvgl-build-windows-${{ github.sha }}.zip
+          if-no-files-found: error
