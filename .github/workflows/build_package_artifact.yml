@@ -66,20 +66,20 @@ jobs:
         run: scripts\install-prerequisites.bat
 
       - name: Configure CMake
-        run: cmake --% -S . -B build/windows-base -G "Visual Studio 17 2022" -A x64 -DBUILD_SHARED_LIBS=ON -DLV_BUILD_USE_KCONFIG=ON -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/empty.defconfig -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install/windows-base
+        run: cmake --preset windows-kconfig -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/empty.defconfig
 
       - name: Build
-        run: cmake --build build/windows-base --config Release --parallel
+        run: cmake --build build/windows-kconfig --config Release --parallel
 
       - name: Install
-        run: cmake --install build/windows-base --config Release
+        run: cmake --install build/windows-kconfig --config Release
 
       - name: Stage outputs in out folder
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Path out -Force | Out-Null
-          Copy-Item -Recurse -Force build/windows-base out/build
-          Copy-Item -Recurse -Force build/install/windows-base out/install
+          Copy-Item -Recurse -Force build/windows-kconfig out/build
+          Copy-Item -Recurse -Force build/install/windows-kconfig out/install
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
