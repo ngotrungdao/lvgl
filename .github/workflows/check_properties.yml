@@ -1,6 +1,5 @@
 name: Verify the widget property name
 on:
-  push:
   pull_request:
   
 # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#concurrency
