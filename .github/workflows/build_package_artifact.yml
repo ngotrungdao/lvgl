@@ -43,16 +43,11 @@ jobs:
           cp -a build out/build
           test -d out/install
 
-      - name: Create zip package
-        run: |
-          ZIP_NAME=lvgl-build-linux-${{ github.sha }}.zip
-          zip -r "$ZIP_NAME" out
-
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
-          name: lvgl-build-linux-${{ github.sha }}
-          path: lvgl-build-linux-${{ github.sha }}.zip
+          name: lvgl-build-linux
+          path: out
           if-no-files-found: error
 
   build-and-package-windows:
@@ -71,7 +66,14 @@ jobs:
         run: scripts\install-prerequisites.bat
 
       - name: Configure CMake
-        run: cmake --preset windows-base
+        run: |
+          cmake -S . -B build/windows-base \
+            -G "Visual Studio 17 2022" \
+            -A x64 \
+            -DBUILD_SHARED_LIBS=ON \
+            -DLV_BUILD_USE_KCONFIG=ON \
+            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/empty.defconfig \
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/build/install/windows-base
 
       - name: Build
         run: cmake --build --preset windows-base_rel
@@ -86,15 +88,9 @@ jobs:
           Copy-Item -Recurse -Force build/windows-base out/build
           Copy-Item -Recurse -Force build/install/windows-base out/install
 
-      - name: Create zip package
-        shell: pwsh
-        run: |
-          $zipName = "lvgl-build-windows-${{ github.sha }}.zip"
-          Compress-Archive -Path out -DestinationPath $zipName -Force
-
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
         with:
-          name: lvgl-build-windows-${{ github.sha }}
-          path: lvgl-build-windows-${{ github.sha }}.zip
+          name: lvgl-build-windows
+          path: out
           if-no-files-found: error
