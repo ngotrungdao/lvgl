@@ -271,7 +271,7 @@ ALLOWED_EXTERNAL_HEADERS: set[str] = {
 
 HEADER_CHECK_WHITELIST: set[str] = {
     "debugging/vg_lite_tvg",
-    "drivers/opengles/assets/lv_opengles_shader.cpp",
+    "drivers/opengles/assets/lv_opengles_shader.c",
     "drivers/opengles/opengl_shader/lv_opengl_shader_manager.c",
     "drivers/opengles/glad",
     "font/lv_font_dejavu_16_persian_hebrew.c",
