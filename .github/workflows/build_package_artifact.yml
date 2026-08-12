@@ -118,6 +118,62 @@ jobs:
           path: out
           if-no-files-found: error
 
+  build-and-package-fedora:
+    runs-on: ubuntu-24.04
+    container: fedora:44
+
+    steps:
+      - name: Install prerequisites
+        # actions/checkout needs git present before it runs, and
+        # actions/setup-python isn't reliable inside arbitrary containers, so
+        # both git and python3 are installed here via dnf instead.
+        run: |
+          dnf install -y \
+            git \
+            cmake ninja-build gcc gcc-c++ make pkgconf-pkg-config \
+            gstreamer1-devel gstreamer1-plugins-base-devel \
+            ffmpeg-free-devel \
+            mesa-libEGL-devel libglvnd-devel \
+            wayland-devel wayland-protocols-devel \
+            libdrm-devel mesa-libgbm-devel \
+            libinput-devel libxkbcommon-devel systemd-devel freetype-devel \
+            libpng-devel libjpeg-turbo-devel libwebp-devel \
+            python3 python3-pip
+          python3 -m pip install kconfiglib
+
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -GNinja \
+            -DLV_BUILD_USE_KCONFIG=ON \
+            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/linux-3d.defconfig \
+            -DCONFIG_LV_USE_GSTREAMER=ON \
+            -DCONFIG_LV_USE_GLTF=ON \
+            -DCONFIG_LV_USE_3DTEXTURE=ON \
+            -DCONFIG_LV_USE_FFMPEG=ON \
+            -DCONFIG_LV_USE_IME_PINYIN=ON \
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
+
+      - name: Build
+        run: |
+          cmake --build build --parallel
+          cmake --install build
+
+      - name: Stage outputs in out folder
+        run: |
+          mkdir -p out
+          cp -a build out/build
+          test -d out/install
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: lvgl-build-fedora
+          path: out
+          if-no-files-found: error
+
   build-and-package-macos:
     runs-on: macos-14
 
