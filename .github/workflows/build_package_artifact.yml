@@ -23,13 +23,22 @@ jobs:
           python-version: '3.12'
 
       - name: Install prerequisites
-        run: scripts/install-prerequisites.sh
+        run: |
+          scripts/install-prerequisites.sh
+          sudo apt-get install -y librlottie-dev
 
       - name: Configure CMake
         run: |
           cmake -B build -GNinja \
             -DLV_BUILD_USE_KCONFIG=ON \
-            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/linux.defconfig \
+            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/linux-3d.defconfig \
+            -DCONFIG_LV_USE_GSTREAMER=ON \
+            -DCONFIG_LV_USE_GLTF=ON \
+            -DCONFIG_LV_USE_3DTEXTURE=ON \
+            -DCONFIG_LV_USE_FFMPEG=ON \
+            -DCONFIG_LV_USE_LOTTIE=ON \
+            -DCONFIG_LV_USE_RLOTTIE=ON \
+            -DCONFIG_LV_USE_IME_PINYIN=ON \
             -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
 
       - name: Build
@@ -65,14 +74,25 @@ jobs:
       - name: Install prerequisites
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake ninja-build build-essential
+          sudo apt-get install -y \
+            cmake ninja-build build-essential pkg-config \
+            libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+            libavformat-dev libavcodec-dev libswscale-dev libavutil-dev \
+            librlottie-dev libegl1-mesa-dev libgles2-mesa-dev
           python3 -m pip install kconfiglib
 
       - name: Configure CMake
         run: |
           cmake -B build -GNinja \
             -DLV_BUILD_USE_KCONFIG=ON \
-            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/empty.defconfig \
+            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/linux-3d.defconfig \
+            -DCONFIG_LV_USE_GSTREAMER=ON \
+            -DCONFIG_LV_USE_GLTF=ON \
+            -DCONFIG_LV_USE_3DTEXTURE=ON \
+            -DCONFIG_LV_USE_FFMPEG=ON \
+            -DCONFIG_LV_USE_LOTTIE=ON \
+            -DCONFIG_LV_USE_RLOTTIE=ON \
+            -DCONFIG_LV_USE_IME_PINYIN=ON \
             -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
 
       - name: Build
@@ -108,14 +128,21 @@ jobs:
       - name: Install prerequisites
         run: |
           brew update
-          brew install ninja
+          brew install ninja pkg-config sdl2 gstreamer ffmpeg rlottie
           python3 -m pip install kconfiglib
 
       - name: Configure CMake
         run: |
           cmake -B build -GNinja \
             -DLV_BUILD_USE_KCONFIG=ON \
-            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/empty.defconfig \
+            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/sdl2-3d.defconfig \
+            -DCONFIG_LV_USE_GSTREAMER=ON \
+            -DCONFIG_LV_USE_GLTF=ON \
+            -DCONFIG_LV_USE_3DTEXTURE=ON \
+            -DCONFIG_LV_USE_FFMPEG=ON \
+            -DCONFIG_LV_USE_LOTTIE=ON \
+            -DCONFIG_LV_USE_RLOTTIE=ON \
+            -DCONFIG_LV_USE_IME_PINYIN=ON \
             -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
 
       - name: Build
