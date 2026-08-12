@@ -129,7 +129,7 @@ jobs:
       - name: Install prerequisites
         run: |
           brew update
-          brew install ninja pkg-config sdl2 gstreamer ffmpeg rlottie
+          brew install ninja pkg-config sdl2 gstreamer ffmpeg
           python3 -m pip install kconfiglib
 
       - name: Configure CMake
@@ -142,7 +142,6 @@ jobs:
             -DCONFIG_LV_USE_3DTEXTURE=ON \
             -DCONFIG_LV_USE_FFMPEG=ON \
             -DCONFIG_LV_USE_LOTTIE=ON \
-            -DCONFIG_LV_USE_RLOTTIE=ON \
             -DCONFIG_LV_USE_IME_PINYIN=ON \
             -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
 
