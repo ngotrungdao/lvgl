@@ -50,6 +50,92 @@ jobs:
           path: out
           if-no-files-found: error
 
+  build-and-package-linux-arm64:
+    runs-on: ubuntu-24.04-arm
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build build-essential
+          python3 -m pip install kconfiglib
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -GNinja \
+            -DLV_BUILD_USE_KCONFIG=ON \
+            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/empty.defconfig \
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
+
+      - name: Build
+        run: |
+          cmake --build build --parallel
+          cmake --install build
+
+      - name: Stage outputs in out folder
+        run: |
+          mkdir -p out
+          cp -a build out/build
+          test -d out/install
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: lvgl-build-linux-arm64
+          path: out
+          if-no-files-found: error
+
+  build-and-package-macos:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Install prerequisites
+        run: |
+          brew update
+          brew install ninja
+          python3 -m pip install kconfiglib
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -GNinja \
+            -DLV_BUILD_USE_KCONFIG=ON \
+            -DLV_BUILD_DEFCONFIG_PATH=configs/defconfigs/empty.defconfig \
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
+
+      - name: Build
+        run: |
+          cmake --build build --parallel
+          cmake --install build
+
+      - name: Stage outputs in out folder
+        run: |
+          mkdir -p out
+          cp -a build out/build
+          test -d out/install
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: lvgl-build-macos
+          path: out
+          if-no-files-found: error
+
   build-and-package-windows:
     runs-on: windows-2022
 
