@@ -328,7 +328,7 @@ static EGLDisplay create_egl_display(lv_opengles_egl_t * ctx)
 
     if(!display) {
         LV_LOG_INFO("Falling back to eglGetDisplay()");
-        display = egl_get_display.fn(ctx->interface.native_display);
+        display = egl_get_display.fn((EGLNativeDisplayType)(lv_uintptr_t)ctx->interface.native_display);
     }
 
     if(!display) {
