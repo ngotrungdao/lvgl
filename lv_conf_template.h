@@ -129,7 +129,7 @@
  *============================================================================*/
 
 /** Color depth: 1 (I1), 8 (L8), 16 (RGB565), 24 (RGB888), 32 (XRGB8888) */
-#define LV_COLOR_DEPTH 16
+#define LV_COLOR_DEPTH 32
 
 /** 0: no adjustment, get the integer part of the result (round down)
  *  64: round up from x.75
@@ -205,7 +205,7 @@
 #define LV_USE_SNAPSHOT 0
 
 /** Backend that gives the SW renderer vector graphics support. */
-#define LV_USE_THORVG 0
+#define LV_USE_THORVG 1
 
 #if LV_USE_THORVG
 /** Build the ThorVG copy shipped with LVGL instead of linking an external one. */
@@ -1252,7 +1252,7 @@
 /** Decodes images and plays videos with FFmpeg. It supports all major image
  *  formats, so do not enable other image decoders together with it.
  */
-#define LV_USE_FFMPEG 0
+#define LV_USE_FFMPEG 1
 
 #if LV_USE_FFMPEG
 /** Print the input stream information to stderr and keep FFmpeg logging
@@ -1268,7 +1268,7 @@
 #endif /*LV_USE_FFMPEG*/
 
 /** GIF decoder */
-#define LV_USE_GIF 0
+#define LV_USE_GIF 1
 
 #if LV_USE_GIF
 /** Speeds up playback at the cost of an extra 16KB of RAM. */
@@ -1286,14 +1286,14 @@
  *
  *  Enable: LV_USE_3DTEXTURE
  */
-#define LV_USE_GLTF 0
+#define LV_USE_GLTF 1
 
 /** Requires the gstreamer-1.0, gstreamer-video-1.0 and gstreamer-app-1.0
  *  development libraries.
  *
  *  Enable: LV_USE_IMAGE
  */
-#define LV_USE_GSTREAMER 0
+#define LV_USE_GSTREAMER 1
 
 /** Image
  *
@@ -1309,7 +1309,7 @@
  *
  *  Enable: LV_USE_KEYBOARD
  */
-#define LV_USE_IME_PINYIN 0
+#define LV_USE_IME_PINYIN 1
 
 #if LV_USE_IME_PINYIN
 /** 9-key input mode */
@@ -1365,7 +1365,7 @@
  *
  *  Enable: LV_USE_VECTOR_GRAPHIC
  */
-#define LV_USE_LOTTIE 0
+#define LV_USE_LOTTIE 1
 
 #endif /*LV_USE_THORVG*/
 
@@ -1565,7 +1565,7 @@
 #define LV_USE_TFT_ESPI 0
 
 /** Read touchscreen, mouse and keyboard input from Linux /dev/input event devices. */
-#define LV_USE_EVDEV 0
+#define LV_USE_EVDEV 1
 
 /** Read pointer, touch and keyboard input through libinput, which must be available in the build. */
 #define LV_USE_LIBINPUT 0
@@ -1638,7 +1638,7 @@
 #endif /*LV_NUTTX_LCD_BUFFER_COUNT == 0*/
 
 /** Touchscreen */
-#define LV_USE_NUTTX_TOUCHSCREEN 0
+#define LV_USE_NUTTX_TOUCHSCREEN 1
 
 #if LV_USE_NUTTX_TOUCHSCREEN
 /** 0 disables the cursor. */
@@ -1749,7 +1749,7 @@
 #endif /*LV_USE_SDL*/
 
 /** Display and input drivers for UEFI firmware, based on the Graphics Output, keyboard and pointer protocols. */
-#define LV_USE_UEFI 0
+#define LV_USE_UEFI 1
 
 #if LV_USE_UEFI
 /** Header wrapping the UEFI framework (EDK2, gnu-efi, ...) */
@@ -1763,7 +1763,7 @@
 #endif /*LV_USE_UEFI*/
 
 /** Open a window on a Wayland compositor on Linux or BSD and read mouse, keyboard and touch input. */
-#define LV_USE_WAYLAND 0
+#define LV_USE_WAYLAND 1
 
 #if LV_USE_WAYLAND
 /** LVGL is deinitialized before the application exits. */
@@ -1785,7 +1785,7 @@
  *  Needs no GPU API: unavailable with the OpenGL ES and NanoVG renderers,
  *  which can only render into a GPU surface.
  */
-#define LV_WAYLAND_USE_DMABUF 0
+#define LV_WAYLAND_USE_DMABUF 1
 
 #endif /*!LV_USE_DRAW_NANOVG*/
 #endif /*!LV_USE_DRAW_OPENGLES*/
@@ -1797,7 +1797,7 @@
  *
  *  Enable: LV_USE_OPENGLES
  */
-#define LV_WAYLAND_USE_EGL 0
+#define LV_WAYLAND_USE_EGL 1
 
 #if !LV_USE_DRAW_OPENGLES
 #if !LV_USE_DRAW_NANOVG
