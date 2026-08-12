@@ -79,7 +79,11 @@ jobs:
             libsdl2-dev \
             libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
             libavformat-dev libavcodec-dev libswscale-dev libavutil-dev \
-            librlottie-dev libegl1-mesa-dev libgles2-mesa-dev
+            librlottie-dev libegl-dev libgles-dev \
+            wayland-protocols libwayland-dev libwayland-bin \
+            libdrm-dev libgbm-dev \
+            libinput-dev libxkbcommon-dev libudev-dev libfreetype-dev \
+            libpng-dev libjpeg-turbo8-dev libwebp-dev
           python3 -m pip install kconfiglib
 
       - name: Configure CMake
