@@ -1739,7 +1739,7 @@
 #endif /*LV_USE_QNX*/
 
 /** Open a window on a PC desktop with SDL2 and read mouse and keyboard input. */
-#define LV_USE_SDL 0
+#define LV_USE_SDL 1
 
 #if LV_USE_SDL
 /** SDL include path */
@@ -1803,7 +1803,7 @@
 #endif /*LV_USE_UEFI*/
 
 /** Open a window on a Wayland compositor on Linux or BSD and read mouse, keyboard and touch input. */
-#define LV_USE_WAYLAND 1
+#define LV_USE_WAYLAND 0
 
 #if LV_USE_WAYLAND
 /** LVGL is deinitialized before the application exits. */
@@ -1825,7 +1825,7 @@
  *  Needs no GPU API: unavailable with the OpenGL ES and NanoVG renderers,
  *  which can only render into a GPU surface.
  */
-#define LV_WAYLAND_USE_DMABUF 1
+#define LV_WAYLAND_USE_DMABUF 0
 
 #endif /*!LV_USE_DRAW_NANOVG*/
 #endif /*!LV_USE_DRAW_OPENGLES*/
@@ -1837,7 +1837,7 @@
  *
  *  Enable: LV_USE_OPENGLES
  */
-#define LV_WAYLAND_USE_EGL 1
+#define LV_WAYLAND_USE_EGL 0
 
 #if !LV_USE_DRAW_OPENGLES
 #if !LV_USE_DRAW_NANOVG
