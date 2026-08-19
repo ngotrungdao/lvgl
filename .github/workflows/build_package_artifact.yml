@@ -83,7 +83,7 @@ jobs:
             wayland-protocols libwayland-dev libwayland-bin \
             libdrm-dev libgbm-dev \
             libinput-dev libxkbcommon-dev libudev-dev libfreetype-dev \
-            libpng-dev libjpeg-turbo8-dev libwebp-dev
+            libpng-dev libjpeg-turbo8-dev libwebp-dev libevdev-dev
           python3 -m pip install kconfiglib
 
       - name: Configure CMake
@@ -137,7 +137,7 @@ jobs:
             wayland-devel wayland-protocols-devel \
             libdrm-devel mesa-libgbm-devel \
             libinput-devel libxkbcommon-devel systemd-devel freetype-devel \
-            libpng-devel libjpeg-turbo-devel libwebp-devel \
+            libpng-devel libjpeg-turbo-devel libwebp-devel libevdev-devel \
             python3 python3-pip
           python3 -m pip install kconfiglib
 

@@ -25,6 +25,7 @@ python3-pip
 libinput-dev
 libxkbcommon-dev
 libdrm-dev
+libevdev-dev
 pkg-config
 wayland-protocols
 libwayland-dev
