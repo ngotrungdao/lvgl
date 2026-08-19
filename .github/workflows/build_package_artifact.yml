@@ -39,7 +39,6 @@ jobs:
             -DCONFIG_LV_USE_LOTTIE=ON \
             -DCONFIG_LV_USE_RLOTTIE=ON \
             -DCONFIG_LV_USE_IME_PINYIN=ON \
-            -DCONFIG_LV_USE_EVDEV=ON \
             -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
 
       - name: Build
@@ -99,7 +98,6 @@ jobs:
             -DCONFIG_LV_USE_LOTTIE=ON \
             -DCONFIG_LV_USE_RLOTTIE=ON \
             -DCONFIG_LV_USE_IME_PINYIN=ON \
-            -DCONFIG_LV_USE_EVDEV=ON \
             -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/out/install
 
       - name: Build
@@ -159,7 +157,6 @@ jobs:
             -DCONFIG_LV_USE_3DTEXTURE=ON \
             -DCONFIG_LV_USE_FFMPEG=ON \
             -DCONFIG_LV_USE_IME_PINYIN=ON \
-            -DCONFIG_LV_USE_EVDEV=ON \
             -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX"
 
       - name: Build
